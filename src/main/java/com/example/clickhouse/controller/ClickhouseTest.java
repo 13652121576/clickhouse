@@ -2,11 +2,15 @@ package com.example.clickhouse.controller;
 
 import java.util.List;
 
+import com.alibaba.fastjson.JSON;
 import com.example.clickhouse.entity.TestTableEntity;
 import com.example.clickhouse.service.TestTableService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +20,9 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/clickhouse")
+@Slf4j
 public class ClickhouseTest {
+    private static final Logger log = LoggerFactory.getLogger(ClickhouseTest.class);
 
     @Autowired
     TestTableService testTableService;
@@ -43,7 +49,7 @@ public class ClickhouseTest {
     public Object list(@RequestParam(value = "page",defaultValue = "1") Integer page,
                        @RequestParam(value = "page_size",defaultValue = "10") Integer pageSize) {
         List<TestTableEntity> list = testTableService.list();
-        System.out.println(list);
+        log.info(JSON.toJSONString(list));
         return testTableService.list(page, pageSize);
     }
 
